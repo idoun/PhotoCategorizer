@@ -14,6 +14,7 @@ public class ArgumentsChecker {
     public boolean isNormal() {
         if (args.length == 0) {
             System.out.println("No source directory.");
+            printHelp();
             return false;
         }
         System.out.println("Source directory:" + args[0]);
@@ -43,5 +44,12 @@ public class ArgumentsChecker {
         }
 
         return true;
+    }
+
+    private void printHelp() {
+        System.out.println("\nFORMAT : ");
+        System.out.println("\t [SOURCE DIRECTORY] (optional)[TARGET DIRECTORY]");
+        System.out.println("You must specify a source directory. Target directory is optional. If you do not specify" +
+                " it, categorized directories will be created on the root of the source directory.");
     }
 }
