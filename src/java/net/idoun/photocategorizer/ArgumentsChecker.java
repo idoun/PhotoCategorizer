@@ -12,6 +12,16 @@ public class ArgumentsChecker {
     }
 
     public boolean isNormal() {
+        if (args == null) {
+            System.out.println("[SYSTEM ERROR] Arguments are not given.");
+            return false;
+        }
+
+        if (dirs == null) {
+            System.out.println("[SYSTEM ERROR] Directory object is not given.");
+            return false;
+        }
+
         if (args.length == 0) {
             System.out.println("No source directory.");
             printHelp();
@@ -28,7 +38,7 @@ public class ArgumentsChecker {
         }
 
         if (!dirs.source.exists()) {
-            System.out.println("Source is not exist.");
+            System.out.println("Source directory is not exist.");
             return false;
         }
 
