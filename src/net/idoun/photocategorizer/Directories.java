@@ -1,4 +1,4 @@
-package kr.idoun.photocategorizer;
+package net.idoun.photocategorizer;
 
 import java.io.File;
 import java.nio.file.Path;

@@ -1,4 +1,4 @@
-package kr.idoun.photocategorizer;
+package net.idoun.photocategorizer;
 
 import org.apache.sanselan.ImageParser;
 import org.apache.sanselan.formats.jpeg.JpegImageParser;
