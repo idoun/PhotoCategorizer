@@ -20,6 +20,10 @@ public class Main {
         }
 
         File[] list = dirs.source.listFiles();
+        if (list == null) {
+            System.out.println("ERROR:NO_FILES");
+            System.exit(-1);
+        }
 
         ImageParser parser = new JpegImageParser();
 
@@ -30,11 +34,15 @@ public class Main {
             ImageExifExtractor extractor = new ImageExifExtractor(file, parser);
             // TODO : Customized format support
             String formatted = extractor.getCreateDate(ImageExifExtractor.DEFAULT_FORMAT);
+            if (formatted == null) {
+                continue;
+            }
 
             Path targetChildPath = dirs.createTargetChildDirectory(formatted);
 
             if (targetChildPath == null) {
                 System.out.println(file.getName() + "cannot be moved.");
+                continue;
             }
 
             Path sourceFile = file.toPath();
@@ -48,14 +56,20 @@ public class Main {
             }
         }
 
-        int exists = dirs.source.listFiles().length;
+        File[] existedFiles = dirs.source.listFiles();
+        if (existedFiles == null) {
+            System.out.println("ERROR:NO_FILES_2");
+            System.exit(-1);
+        }
+        int exists = existedFiles.length;
         System.out.println("End : moved:" + listSize + " exists:" + exists);
 
         // Remove empty source directory.
         // TODO : This should be optional function.
         if (exists == 0) {
-            dirs.source.delete();
-            System.out.println(dirs.source.getName() + " deleted. " + dirs.source.exists());
+            boolean deleted = dirs.source.delete();
+            String message = dirs.source.getName() + " %s " + dirs.source.exists();
+            System.out.println(String.format(message, deleted ? " deleted. " : " not deleted. "));
         }
     }
 }

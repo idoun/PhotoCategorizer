@@ -34,6 +34,11 @@ public class ImageExifExtractor {
 
             JpegImageMetadata jpegMetadata = (JpegImageMetadata)metadata;
 
+            if (metadata == null) {
+                System.out.println("\tFile is not JPEG.");
+                return null;
+            }
+
             TiffField field = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_CREATE_DATE);
             String createDate = field.getValueDescription().replaceAll("'", "");
             SimpleDateFormat formatForParsing = new SimpleDateFormat(EXIF_DATE_FORMAT, Locale.getDefault());
