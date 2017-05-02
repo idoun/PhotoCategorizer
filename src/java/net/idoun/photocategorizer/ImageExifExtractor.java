@@ -40,6 +40,10 @@ public class ImageExifExtractor {
             }
 
             TiffField field = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_CREATE_DATE);
+            if (field == null || field.getValueDescription() == null) {
+                System.out.println("\tCreated date is empty.");
+                return null;
+            }
             String createDate = field.getValueDescription().replaceAll("'", "");
             SimpleDateFormat formatForParsing = new SimpleDateFormat(EXIF_DATE_FORMAT, Locale.getDefault());
 
@@ -47,12 +51,15 @@ public class ImageExifExtractor {
         } catch (IOException ioe) {
             System.out.println("IOException");
             ioe.printStackTrace();
+            return null;
         } catch (ImageReadException ire) {
             System.out.println("ImageReadException");
             ire.printStackTrace();
+            return null;
         } catch (ParseException e) {
             System.out.println("ParseException");
             e.printStackTrace();
+            return null;
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat(format);
