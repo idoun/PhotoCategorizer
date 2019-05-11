@@ -29,19 +29,25 @@ public class Main {
 
         int listSize = list.length;
         for (File file : list) {
-            System.out.println("\nfilename:" + file.getName());
+            String fileName = file.getName();
+            System.out.println("\nfilename:" + fileName);
 
             ImageExifExtractor extractor = new ImageExifExtractor(file, parser);
             // TODO : Customized format support
             String formatted = extractor.getCreateDate(ImageExifExtractor.DEFAULT_FORMAT);
             if (formatted == null) {
-                continue;
+                if (fileName.endsWith(".mp4") && fileName.indexOf('_') == 8) { // yyyyMMdd_hhmmss.mp4
+                    String yyyyMMdd = fileName.substring(0, fileName.indexOf('_'));
+                    formatted = yyyyMMdd.substring(0, 4) + "-" + yyyyMMdd.substring(4, 6) + "-" + yyyyMMdd.substring(6, 8) ;
+                } else {
+                    continue;
+                }
             }
 
             Path targetChildPath = dirs.createTargetChildDirectory(formatted);
 
             if (targetChildPath == null) {
-                System.out.println(file.getName() + "cannot be moved.");
+                System.out.println(fileName + " cannot be moved.");
                 continue;
             }
 
